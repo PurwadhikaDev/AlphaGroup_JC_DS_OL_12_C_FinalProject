@@ -48,7 +48,7 @@ Sebelum menentukan metrik evaluasi yang akan digunakan, sebaiknya perlu memperha
 
 **False Negative**  : Pelanggan yang diprediksi akan tetap melakukan transaksi tetapi kenyataannya berhenti bertransaksi. Konsekuensinya adalah kehilangan jumlah pelanggan yang akan berdampak pada penurunan revenue.
 
-Karena fokus perusahaan adalah mempertahankan pelanggan secara efektif dan efisien dimana **meminimalisir false positive dan false negative sekecil mungkin dan tetap seimbang** maka metrik yang digunakan adalah **f1-score**.
+Karena fokus perusahaan adalah mempertahankan pelanggan secara efektif dan efisien dimana **meminimalisir false positive dan false negative sekecil mungkin tetapi lebih difokuskan pada recall** maka metrik yang digunakan adalah **f2-score**.
 
 untuk gambaran kuantitatifnya secara umum adalah :
 - Costumer Acquisition Cost (CAC) berdasarkan referensi https://firstpagesage.com sebesar 65 USD per orang<sup>[1]</sup>,
@@ -56,6 +56,7 @@ untuk gambaran kuantitatifnya secara umum adalah :
 
 Adapun pengertian dari tiap-tiap metrik evaluasi model klasifikasi yaitu :
 - **F1-Score** : ukuran yang menggabungkan Precision dan Recall menjadi satu angka tunggal. Ini memberikan gambaran keseluruhan tentang kinerja model dalam mengklasifikasikan kelas positif, dengan mempertimbangkan baik false positives maupun false negatives.
+- **F2-Score** : ukuran yang menggabungkan Precision dan Recall menjadi satu angka tunggal tetapi lebih ditekankan pada Recall.
 - **Recall** : merupakan rasio prediksi benar positif dibandingkan dengan keseluruhan data yang benar positif. Ini berguna ketika Anda ingin meminimalkan false negatives.
 - **Precision** : merupakan rasio prediksi benar positif dibandingkan dengan keseluruhan data yang diprediksi positf. Ini berguna ketika Anda ingin meminimalkan false positives.
 
@@ -91,9 +92,9 @@ Adapun pengertian dari tiap-tiap metrik evaluasi model klasifikasi yaitu :
 
 1. Model dengan performa terbaik dalam melakukan prediksi berdasarkan hasil uji coba dengan dataset ini adalah XGBoost.
 
-2. Resampler terbaik pada pemodelan menggunakan dataset ini adalah dengan metode SMOTE dikarenakan menghasilkan rata-rata f1 score lebih baik dari metode Random Undersampling untuk semua model.
+2. Resampler terbaik pada pemodelan menggunakan dataset ini adalah dengan metode SMOTE dikarenakan menghasilkan rata-rata f2 score lebih baik dari metode Random Undersampling untuk semua model.
 
-3. Model terpilih yaitu XGBoost mendapatkan peningkatan performa setelah dilakukan hyperparameter tuning dengan nilai f1 score sebelum tuning sebesar 0.89 dan setelah tuning sebesar 0.90. Parameter hasil tuning adalah sebagai berikut : subsample = 0.9686, n_estimators = 198, max_depth = 8, learning_rate = 0.10712.
+3. Model terpilih yaitu XGBoost yang mendapatkan peningkatan performa setelah dilakukan hyperparameter tuning. Parameter hasil tuning adalah sebagai berikut : subsample = 0.9686, n_estimators = 198, max_depth = 8, learning_rate = 0.10712.
 
 4. Kita harus berhati-hati ketika melakukan interpretasi di luar interval independen variabel. Model ini hanya berlaku pada rentang data yang digunakan dengan limitasi Model adalah sebagai berikut :
 
@@ -128,12 +129,14 @@ Adapun pengertian dari tiap-tiap metrik evaluasi model klasifikasi yaitu :
 
 **Berdasarkan Pemodelan yang sudah dilakukan, diberikan rekomendasi agar performa model dapat bekerja dengan lebih baik dan membantu perusahaan dalam mengatasi retensi pelanggan :**
 
-1. Untuk kedepannya disarankan untuk mengembangkan model machine learning terkait segmentasi sehingga lebih memudahkan tim marketing dalam membuat program kampanye dan promosi.
+1. Untuk kedepannya disarankan untuk mengembangkan model machine learning terkait segmentasi sehingga lebih memudahkan tim marketing dalam membuat program kampanye dan promosi. Selain itu perlu dilakukan pembuatan model klasifikasi terpisah berdasarkan data produk konsumsi harian dan produk konsumsi bukan harian agar lebih akurat dan logis.
 
-2. Untuk efisien pemodelan ada baiknya menghapus fitur-fitur yang tidak terlalu berpengaruh berdasarkan hasil features importances terhadap model seperti fitur 'WarehouseToHome', 'Gender', 'HourSpendOnApp', 'OrderAmountHikeFromlastYear', 'CashbackAmount' dan juga terdapat fitur yang sebenarnya tidak terlalu berpengaruh seperti 'DaySinceLastOrder'.
+2. Untuk efisien pemodelan ada baiknya menghapus fitur-fitur yang tidak terlalu berpengaruh berdasarkan hasil features importances terhadap model seperti fitur 'WarehouseToHome', 'Gender', 'HourSpendOnApp', 'OrderAmountHikeFromlastYear', 'CouponUsed' dan juga terdapat fitur yang sebenarnya tidak terlalu berpengaruh seperti 'DaySinceLastOrder'.
 
-3. Untuk meningkatkan performa model, ada berbagai cara diantaranya adalah :
-- Memperbanyak jumlah data pelanggan sehingga model lebih baik dalam membedakan pelanggan churn atau tidak,
-- Memperbanyak jumlah fitur atau kolom baru yang berhubungan dengan potensi pelanggan untuk churn berdasarkan domain knowledge.
-- Menambah uji coba modelling seperti menggunakan metode resampling lainnya,
-- Menghindari data redundan dan data kosong sehingga lebih mudah ketika proses data cleaning.
+3. Memperbanyak jumlah data pelanggan sehingga model lebih baik dalam membedakan pelanggan churn atau tidak,
+
+4. Memperbanyak jumlah fitur atau kolom baru yang berhubungan dengan potensi pelanggan untuk churn berdasarkan domain knowledge.
+
+5. Menambah uji coba modelling seperti menggunakan metode resampling lainnya,
+
+6. Menghindari data redundan dan data kosong pada tahap data acquisition sehingga lebih mudah ketika proses data cleaning.
